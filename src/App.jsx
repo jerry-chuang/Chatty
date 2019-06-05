@@ -2,29 +2,27 @@ import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
 
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currentUser: {name: ''}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-        {
-          id: 1,
-          username: 'Bob',
-          content: 'Has anyone seen my marbles?',
-        },
-        {
-          id: 2,
-          username: 'Anonymous',
-          content: 'No, I think you lost them. You lost your marbles Bob. You lost them for good.'
-        }
-      ]
+      messages: []
     }     
+    this.socket = new WebSocket('ws://localhost:3001/');
   }
 
+  
   componentDidMount() {
     console.log("componentDidMount <App />");
     setTimeout(() => {
+      
+
+      this.socket.onopen = function (event) {
+        console.log('connected to server')
+      }
+
       console.log("Simulating incoming message");
       // Add a new message to the list of messages in the data store
       const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
@@ -45,11 +43,19 @@ class App extends Component {
 
   render() {
 
+    this.socket.onmessage = (event) => {
+      console.log('received message')
+      const newMessage = JSON.parse(event.data);
+      const messages = this.state.messages.concat(newMessage)
+      this.updateMessage(messages);
+    }
+
     const onMessage = (event) => {
       if(event.key === 'Enter'){
-        const newMessage = {id: (this.state.messages.length+1), username: this.state.currentUser.name? this.state.currentUser.name: 'Anonymous', content: event.target.value};
-        const messages = this.state.messages.concat(newMessage)
-        this.updateMessage(messages);
+        const newMessage = {id: (this.state.messages.length + 1), username: this.state.currentUser.name? this.state.currentUser.name: 'Anonymous', content: event.target.value};
+       
+        this.socket.send(JSON.stringify(newMessage))
+
         event.target.value = '';
       }
     }

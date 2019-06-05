@@ -1,5 +1,5 @@
 {
-  "name": "Chatty App",
+  "name": "ChattyApp",
   "version": "1.0.0",
   "description": "Chatroom app built using react and websocket",
   "scripts": {

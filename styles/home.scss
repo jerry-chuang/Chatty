@@ -55,6 +55,9 @@ body {
 .message-content {
   flex: 8;
 }
+.message-image {
+  width: 60%;
+}
 
 .message-username {
   flex: 2;
@@ -76,6 +79,18 @@ body {
   color: inherit;
   display: block;
   float: left;
+  font-weight: 700;
+  font-size: 28px;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 10px;
+  text-decoration: none;
+}
+
+.navbar-count {
+  color: inherit;
+  display: block;
+  float: right;
   font-weight: 700;
   font-size: 28px;
   height: 60px;

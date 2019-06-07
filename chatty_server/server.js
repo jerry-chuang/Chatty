@@ -27,7 +27,7 @@ wss.on('connection', (ws) => {
       client.send(JSON.stringify({type:'incomingCount', count:wss.clients.size}));
     }
   })
-  // Array with some colors
+  // Randomly pick a color and sends it to the client on connect
   let colors = [ 'red', 'green', 'blue', 'magenta', 'purple', 'plum', 'orange' ];
   ws.send(JSON.stringify({type:'incomingColor', color: colors[Math.floor(Math.random()*colors.length)]}))
 
@@ -55,9 +55,6 @@ wss.on('connection', (ws) => {
         }
       })
     }
-
-
-
   })
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.

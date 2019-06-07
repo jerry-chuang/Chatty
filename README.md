@@ -18,6 +18,8 @@ A simple chatroom app built using React and websocket
 * Webpack
 * [babel-loader](https://github.com/babel/babel-loader)
 * [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+* ws websocket
+
 
 ### Screenshots
-!["Chat"](https://github.com/JerChuang/tweeter/blob/master/public/images/new-tweet.png?raw=true)
+!["Chat"](https://github.com/JerChuang/Chatty/blob/master/chat.png)

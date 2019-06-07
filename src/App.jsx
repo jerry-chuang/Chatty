@@ -67,7 +67,6 @@ class App extends Component {
       this.updateName(event.target.value)
       const newMessage = {type: 'postNotification',id: '', content: `${this.state.currentUser.name? this.state.currentUser.name: 'Anonymous'} has changed their name to ${event.target.value}`};  
       this.socket.send(JSON.stringify(newMessage))
-
     }
 
     return (<div>
@@ -75,8 +74,7 @@ class App extends Component {
         <a href="/" className="navbar-brand">Chatty</a>
         <span className ="navbar-count">{this.state.userCount} users online</span>
       </nav>
-      <MessageList messages = {this.state.messages}/>
-     
+      <MessageList messages = {this.state.messages}/>   
       <ChatBar currentUser = {this.state.currentUser} onMessage = {onMessage} onNameChange = {onNameChange}/>
     </div>
     );

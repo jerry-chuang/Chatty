@@ -19,17 +19,22 @@ const wss = new WebSocket.Server({ server });
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
+function Broadcast(message) {
+  wss.clients.forEach(function each(client){
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(message);
+    }
+  })
+}
+
+
 wss.on('connection', (ws) => {
   console.log('Client connected');
   //Broadcast user count to all clients
-  wss.clients.forEach(function each(client){
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({type:'incomingCount', count:wss.clients.size}));
-    }
-  })
+  Broadcast(JSON.stringify({type:'incomingCount', count:wss.clients.size}));
   // Randomly pick a color and sends it to the client on connect
   let colors = [ 'red', 'green', 'blue', 'magenta', 'purple', 'plum', 'orange' ];
-  ws.send(JSON.stringify({type:'incomingColor', color: colors[Math.floor(Math.random()*colors.length)]}))
+  ws.send(JSON.stringify({type:'incomingColor', color: colors[Math.floor(Math.random()*colors.length)]}));
 
 
 
@@ -39,21 +44,13 @@ wss.on('connection', (ws) => {
     if (received.type === 'postMessage'){
       received.type = 'incomingMessage'
       received.id = uuidv1();
-      wss.clients.forEach(function each(client){
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(received));
-        }
-      })
+      Broadcast(JSON.stringify(received))
     }
     if (received.type === 'postNotification'){
       received.type = 'incomingNotification'
       received.id = uuidv1();
       console.log('broadcasting notification', received)
-      wss.clients.forEach(function each(client){
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(received));
-        }
-      })
+      Broadcast(JSON.stringify(received))
     }
   })
 
@@ -61,10 +58,6 @@ wss.on('connection', (ws) => {
   ws.on('close', () => {
     console.log('Client disconnected')
     //broadcast usercount again on close
-    wss.clients.forEach(function each(client){
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify({type:'incomingCount', count:wss.clients.size}));
-      }
-    })
+    Broadcast(JSON.stringify({type:'incomingCount', count:wss.clients.size}))
   });
 });

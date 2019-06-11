@@ -57,16 +57,23 @@ class App extends Component {
 
     const onMessage = (event) => {
       if(event.key === 'Enter'){
-        const newMessage = {type: 'postMessage',id: '', color: this.state.userColor ,username: this.state.currentUser.name? this.state.currentUser.name: 'Anonymous', content: event.target.value};  
-        this.socket.send(JSON.stringify(newMessage))
-        event.target.value = '';
+        if (event.target.value.trim()){
+          const newMessage = {type: 'postMessage',id: '', color: this.state.userColor ,username: this.state.currentUser.name? this.state.currentUser.name: 'Anonymous', content: event.target.value};  
+          this.socket.send(JSON.stringify(newMessage))
+        }
+          event.target.value = '';
+        
       }
     }
 
     const onNameChange = (event) => {
-      this.updateName(event.target.value)
-      const newMessage = {type: 'postNotification',id: '', content: `${this.state.currentUser.name? this.state.currentUser.name: 'Anonymous'} has changed their name to ${event.target.value}`};  
-      this.socket.send(JSON.stringify(newMessage))
+      if (event.target.value.trim()){
+        this.updateName(event.target.value)
+        const newMessage = {type: 'postNotification',id: '', content: `${this.state.currentUser.name? this.state.currentUser.name: 'Anonymous'} has changed their name to ${event.target.value}`};  
+        this.socket.send(JSON.stringify(newMessage))
+      } else {
+        event.target.value = '';
+      }
     }
 
     return (<div>

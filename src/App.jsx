@@ -9,7 +9,7 @@ class App extends Component {
     this.state = {
       userCount: 0,
       userColor: '',
-      currentUser: {name: ''}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: ''}, 
       messages: []
     }     
     this.socket = new WebSocket('ws://localhost:3001/');
@@ -43,15 +43,18 @@ class App extends Component {
     this.socket.onmessage = (event) => {
       console.log('received message')
       const newMessage = JSON.parse(event.data);
-      if(newMessage.type === 'incomingColor'){
-        this.updateUserColor(newMessage.color);
-      }
-      if (newMessage.type === 'incomingCount'){
-        this.updateUserCount(newMessage.count);
-      }
-      if (newMessage.type === 'incomingMessage' || newMessage.type === 'incomingNotification'){
-        const messages = this.state.messages.concat(newMessage)
-        this.updateMessage(messages);
+      switch (newMessage.type){
+        case 'incomingColor':
+          this.updateUserColor(newMessage.color);
+          break;
+        case 'incomingCount':
+          this.updateUserCount(newMessage.count);
+          break;
+        case 'incomingMessage':
+        case 'incomingNotification':
+          const messages = this.state.messages.concat(newMessage)
+          this.updateMessage(messages);
+          break;
       }
     }
 

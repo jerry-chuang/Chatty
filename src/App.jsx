@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
+import Nav from './Nav.jsx';
 
 
 class App extends Component {
@@ -80,10 +81,11 @@ class App extends Component {
     }
 
     return (<div>
-      <nav className="navbar">
+      <Nav userCount = {this.state.userCount}/>
+      {/* <nav className="navbar">
         <a href="/" className="navbar-brand">Chatty</a>
         <span className ="navbar-count">{this.state.userCount} users online</span>
-      </nav>
+      </nav> */}
       <MessageList messages = {this.state.messages}/>   
       <ChatBar currentUser = {this.state.currentUser} onMessage = {onMessage} onNameChange = {onNameChange}/>
     </div>

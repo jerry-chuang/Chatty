@@ -71,15 +71,19 @@ class App extends Component {
     }
 
     const onNameChange = (event) => {
-      if(!event.target.value.trim()){
-        event.target.value = 'Anonymous'
-        this.updateName(event.target.value)
-      } else {
+      if (!event.target.value.trim()){
+        event.target.value = this.state.currentUser.name
+      }
+      if (!this.state.currentUser.name){ 
+        this.updateName('Anonymous')     
+      }
+
+      if (event.target.value.trim() !== this.state.currentUser.name && event.target.value.trim()){
         this.updateName(event.target.value)
         const newMessage = {type: 'postNotification',id: '', content: `${this.state.currentUser.name? this.state.currentUser.name: 'Anonymous'} has changed their name to ${event.target.value}`};  
         this.socket.send(JSON.stringify(newMessage))
-        event.target.value = event.target.value.trim()
-      }
+      } 
+      event.target.value = event.target.value.trim()
     }
 
     return (<div>

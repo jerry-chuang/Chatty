@@ -4,11 +4,9 @@ const WebSocket = require('ws');
 const PORT = 3001;
 const uuidv1 = require('uuid/v1');
 
-
 const server = express()
   .use(express.static('public'))
   .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
-
 
 const wss = new WebSocket.Server({ server });
 
@@ -20,7 +18,6 @@ function Broadcast(message) {
   })
 }
 
-
 wss.on('connection', (ws) => {
   console.log('Client connected');
   //Broadcast user count to all clients
@@ -28,8 +25,6 @@ wss.on('connection', (ws) => {
   // Randomly pick a color and sends it to the client on connect
   let colors = [ 'red', 'green', 'blue', 'magenta', 'purple', 'plum', 'orange' ];
   ws.send(JSON.stringify({type:'incomingColor', color: colors[Math.floor(Math.random()*colors.length)]}));
-
-
 
   ws.on('message', function incoming(data){
     console.log('received message')

@@ -3,7 +3,6 @@ import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
 import Nav from './Nav.jsx';
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +14,6 @@ class App extends Component {
     }     
     this.socket = new WebSocket('ws://localhost:3001/');
   }
-
   
   componentDidMount() {
     this.socket.onopen = function (event) {
@@ -40,7 +38,6 @@ class App extends Component {
   }
 
   render() {
-
     this.socket.onmessage = (event) => {
       console.log('received message')
       const newMessage = JSON.parse(event.data);
@@ -65,8 +62,7 @@ class App extends Component {
           const newMessage = {type: 'postMessage',id: '', color: this.state.userColor ,username: this.state.currentUser.name? this.state.currentUser.name: 'Anonymous', content: event.target.value};  
           this.socket.send(JSON.stringify(newMessage))
         }
-          event.target.value = '';
-        
+          event.target.value = '';        
       }
     }
 
@@ -94,4 +90,5 @@ class App extends Component {
     );
   }
 }
+
 export default App;

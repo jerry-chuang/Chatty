@@ -38,7 +38,6 @@ wss.on('connection', (ws) => {
       case 'postNotification':
         received.type = 'incomingNotification'
         received.id = uuidv1();
-        console.log('broadcasting notification', received)
         Broadcast(JSON.stringify(received))
         break;
     }

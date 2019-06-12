@@ -4,6 +4,18 @@ import Notification from './Notification.jsx';
 
 
 class MessageList extends Component {
+  scrollToBottom() {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  }
+  
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+  
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+  
   render() {
     const messages = this.props.messages.map(message => {
       if (message.type === 'incomingNotification'){
@@ -17,7 +29,11 @@ class MessageList extends Component {
     return (
       <main className="messages">
        {messages}
+       <div style={{ float:"left", clear: "both" }}
+             ref={(el) => { this.messagesEnd = el; }}>
+        </div>
       </main>
+      
     );
   }
 }

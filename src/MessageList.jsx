@@ -2,8 +2,12 @@ import React, {Component} from 'react';
 import Message from './Message.jsx';
 import Notification from './Notification.jsx';
 
-
 class MessageList extends Component {
+  constructor(props){
+    super(props);
+    this.messagesEnd = null;
+  }
+
   scrollToBottom() {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   }
@@ -29,12 +33,11 @@ class MessageList extends Component {
     return (
       <main className="messages">
         {messages}
-        <div style={{ float:"left", clear: "both" }} ref={(el) => { this.messagesEnd = el; }}>
+        <div style={{ float:"left", clear: "both" }} ref={(el) =>  this.messagesEnd = el }>
         </div>
-      </main>
-      
+      </main>      
     );
   }
 }
-export default MessageList;
 
+export default MessageList;
